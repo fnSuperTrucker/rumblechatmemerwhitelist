@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Simple Image Preview with Whitelist",
+    "version": "1.0",
+    "description": "Detects and previews image links in chats with a simple whitelist",
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://rumble.com/*"
+            ],
+            "js": ["content.js"],
+            "all_frames": true
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
