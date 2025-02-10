@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.local.get('allowedSites', function(data) {
         let sites = data.allowedSites || [];
         
-        // Check if the whitelist is empty and add 'rumble.com' by default if it is
+        // Check if the whitelist is empty and add 'rumble.com' if it is
         if (sites.length === 0) {
             sites.push('rumble.com');
             chrome.storage.local.set({ 'allowedSites': sites }, function() {
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (site) {
             chrome.storage.local.get('allowedSites', function(data) {
                 let sites = data.allowedSites || [];
-                console.log('Adding site:', site); // Add this line for verification
                 if (!sites.includes(site)) {
                     sites.push(site);
                     chrome.storage.local.set({ 'allowedSites': sites }, function() {
@@ -39,20 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function addSiteToList(site) {
         const li = document.createElement('li');
         li.textContent = site;
-
-        // Add a remove button next to each site
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
-        removeButton.onclick = () => {
+        removeButton.addEventListener('click', function() {
             chrome.storage.local.get('allowedSites', function(data) {
                 let sites = data.allowedSites || [];
                 sites = sites.filter(s => s !== site);
                 chrome.storage.local.set({ 'allowedSites': sites }, function() {
-                    li.parentNode.removeChild(li); // Remove the list item from the UI
+                    li.remove();
                 });
             });
-        };
-
+        });
         li.appendChild(removeButton);
         sitesList.appendChild(li);
     }
